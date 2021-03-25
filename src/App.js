@@ -5,12 +5,32 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 
+const Notify = ({errorMessage}) => {
+  if ( !errorMessage ) {
+    return null
+  }
+  return (
+    <div style={{color: 'red'}}>
+    {errorMessage}
+    </div>
+  )
+}
 
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [errorMessage, setErrorMessage] = useState(null)
+
+
+  const notify = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 10000)
+  }
 
   return (
     <div>
+      <Notify errorMessage={errorMessage} />
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
@@ -27,6 +47,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        setError={notify}
       />
 
     </div>
